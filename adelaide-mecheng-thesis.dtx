@@ -1,0 +1,425 @@
+% \iffalse 
+%<*internal>
+\iffalse
+%</internal>
+%<*readme>
+___________________________________
+The adelaide-mecheng-thesis package
+v0.1
+
+___________________________
+Will Robertson & Zebb Prime
+
+will.robertson@latex-project.org
+
+Copyright 2011-
+Distributed under the LaTeX Project Public License
+%</readme>
+%<*internal>
+\fi
+\begingroup
+%</internal>
+%<*batchfile>
+\input docstrip.tex
+\keepsilent
+\preamble
+
+  _______________________________________________
+  Copyright (C) 2011  Will Robertson & Zebb Prime
+
+  License information appended.
+
+
+\endpreamble
+\postamble
+
+Copyright (C) 2011 by Will Robertson & Zebb Prime
+
+will.robertson@latex-project.org
+
+Distributable under the LaTeX Project Public License,
+version 1.3c or higher (your choice). The latest version of
+this license is at: http://www.latex-project.org/lppl.txt
+
+This work is "maintained" (as per LPPL maintenance status) 
+by Will Robertson.
+
+This work consists of the file  adelaide-mecheng-thesis.dtx
+with assorted derived files.
+
+\endpostamble
+\askforoverwritefalse
+\generate{\file{\jobname.cls}{\from{\jobname.dtx}{package}}}
+%</batchfile>
+%<batchfile>\endbatchfile
+%<*internal>
+\generate{\file{\jobname.ins}{\from{\jobname.dtx}{batchfile}}}
+\nopreamble\nopostamble
+\generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
+\generate{\file{dtx-style.sty}{\from{\jobname.dtx}{dtx-style}}}
+\endgroup
+\immediate\write18{makeindex -s gind.ist -o \jobname.ind  \jobname.idx}
+\immediate\write18{makeindex -s gglo.ist -o \jobname.gls  \jobname.glo}
+%</internal>
+%
+%<*driver>
+\ProvidesFile{adelaide-mecheng-thesis.dtx}
+%</driver>
+%<package>\ProvidesPackage{adelaide-mecheng-thesis}
+%<*fontspec|patches>
+  [2011/09/04 v0.1 Report/thesis class for Mechanical Engineering @ Adelaide]
+%</fontspec|patches>
+%$
+%<*driver>
+\documentclass{ltxdoc}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+%\OnlyDescription
+\usepackage{dtx-style}
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+%
+%
+% \fi
+%
+% \GetFileInfo{\jobname.dtx}
+% \CheckSum{0}
+% \makeatletter
+%
+% \author{Will Robertson \and Zebb Prime}
+% \title{Class file for reports and theses in the School of Mechanical Engineering, University of Adelaide}
+% \date{\filedate \qquad \fileversion}
+%
+% \maketitle
+%
+% \tableofcontents
+% \clearpage
+%
+% \section{Introduction}
+% 
+%
+% \StopEventually{}
+%
+% \clearpage
+% \part{\pkg{\jobname} implementation}
+%\iffalse
+%<*package>
+%\fi
+%
+%
+%    \begin{macrocode}
+\ProvidesClass{adelaide-mecheng-thesis}
+
+\newif\if@print 
+\newif\if@mxthesis@sspa 
+
+\DeclareOption{print}{\@printtrue}
+\DeclareOption{noprint}{\@printfalse}
+\ProcessOptions
+
+\LoadClass[a4paper,11pt,twoside,onecolumn,openright]{memoir}
+
+\pdfimageresolution=300
+\pdfminorversion=6
+
+\RequirePackage{keyval}
+\define@key{mecheng}{author}{\def\@author{#1}}
+\define@key{mecheng}{title}{\def\@title{#1}}
+\define@key{mecheng}{submission-date}{\def\@submissiondate{#1}}
+\define@key{mecheng}{version-date}{\def\@versiondate{#1}}
+\define@key{mecheng}{group-name}{\def\@groupname{#1}}
+\define@key{mecheng}{keywords}{\def\@keywords{#1}}
+\define@key{mecheng}{sspa}{\@mxthesis@sspatrue}
+
+\newcommand\thesisdetails{\setkeys{mecheng}}
+
+\AtBeginDocument{
+  \hypersetup{
+    pdfauthor={\@author},
+    pdftitle={\@title},
+    pdfsubject={PhD Thesis},
+    pdfkeywords={\@keywords}
+  }
+}
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern,textcomp}
+\RequirePackage[sc]{mathpazo}
+\linespread{1.1}% Palatino font
+\frenchspacing
+
+\RequirePackage{enumitem,flafter,bm,sistyle,refstyle,amsmath,amssymb,microtype,longtable,subfig,accents,mathtools,booktabs}
+
+\RequirePackage[
+    crop=pdfcrop,
+    process=auto,
+    cleanup={.tex,.dvi,.ps,.pdf,.log,.aux,.out}
+  ]{pstool}% .tex and .eps files in pdflatex (e.g., matlabfrag output)
+
+
+\EndPreamble
+
+%%%% Fix up the footnote referencing
+%\RequirePackage{footmisc}
+%\renewcommand*{\footref}[1]{%
+% \begingroup
+%   \unrestored@protected@xdef\@thefnmark{\ref*{#1}}%
+% \endgroup
+% \@footnotemark
+%}
+
+%%%% Where environment for lists following equations.
+\newenvironment{where}[1][]
+  {%\vspace{-\baselineskip}
+   \begin{description}[
+     font=\normalfont,
+     labelindent=\parindent,
+     labelsep=1ex,
+     nolistsep,#1]}
+  {\end{description}}
+
+%%%% Set up hyperref, and make links dark colours
+%\RequirePackage{hyperref} Implicitly loaded by attachfile.
+\RequirePackage[colorlinks=true,bookmarks,plainpages=false,pdfpagelabels,final]{attachfile}
+\if@print
+  \hypersetup{linkcolor=black,citecolor=black,filecolor=black,urlcolor=black} % Black links
+\else
+  \definecolor{darkred}{rgb}{0.4,0.16,0.16}
+  \definecolor{darkgreen}{rgb}{0.16,0.4,0.256}
+  \definecolor{darkblue}{rgb}{0.16,0.256,0.4}
+  \hypersetup{linkcolor=darkred,citecolor=darkblue,filecolor=black,urlcolor=darkgreen} % Dark links
+\fi
+
+%%%% General PageStyle
+\copypagestyle{ruledmod}{ruled}
+\makepsmarks{ruledmod}{%
+ \let\@mkboth\markboth
+ \def\chaptermark##1{%
+   \markboth{%
+     Chapter~\thechapter\enspace ##1}{}}% left marks
+ \def\sectionmark##1{\markright{% % right mark
+ \ifnum \c@secnumdepth>\z@
+   \thesection\enspace % section number
+ \fi
+ ##1}}}
+\g@addto@macro\mainmatter{\pagestyle{ruledmod}}
+\g@addto@macro\backmatter{\movetooddpage[\thispagestyle{empty}]}
+
+\chapterstyle{hangnum}
+\maxsecnumdepth{subsubsection}
+
+\addtolength{\spinemargin}{0.6cm}
+\addtolength{\foremargin}{-0.6cm}
+\checkandfixthelayout
+%    \end{macrocode}
+% \paragraph{biblatex customisation}
+% Get rid of that stupid S thing in section references.
+%    \begin{macrocode}
+\usepackage[style=authoryear,firstinits=true,uniquename=false,hyperref=true,backref=true,minnames=1,maxnames=2,urldate=long]{biblatex}
+
+\DeclareNameFormat{default}{%
+  \iffirstinits
+    {\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}}
+    {\usebibmacro{name:last-first}{#1}{#3}{#5}{#7}}%
+  \usebibmacro{name:andothers}}
+
+
+\defbibheading{references}{%
+  \chapter*{References}%
+  \ifmemoirbibintoc
+    {\phantomsection
+     \addcontentsline{toc}{chapter}{References}}
+    {}%
+  \@mkboth{\textsc{References}}{}}
+
+\defbibheading{empty}{}
+
+\DeclareMultiCiteCommand{\textcites}[]{\textcite}{\multicitedelim}
+  
+\renewcommand\multicitedelim{, }
+\renewcommand\bibname{References}
+  
+\DeclareFieldFormat[article]{number}{No.\,#1}%
+\DeclareFieldFormat[article]{volume}{Vol.\,#1}%
+\DeclareFieldFormat[article]{year}{#1}%
+    
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addspace}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  \printfield{volume}%
+  \setunit{\addcomma\space}%
+  \printfield{number}%
+%  \setunit{\addcomma\space}%
+%  \printfield{year}%
+  \newunit\newblock
+  \usebibmacro{issue}%
+  \newunit}
+%    \end{macrocode}
+% \paragraph{refstyle customisation}
+% Get rid of that stupid S thing in section references.
+%    \begin{macrocode}
+\newref{sec}{%
+  name    = \RSsectxt,
+  names   = \RSsecstxt,
+  Name    = \RSSectxt,
+  Names   = \RSSecstxt,
+  refcmd  = {\ref{#1}},
+  rngtxt  = \RSrngtxt,
+  lsttxt  = \RSlsttxt}
+%    \end{macrocode}
+%
+%\iffalse
+%</package>
+%\fi
+%
+%
+%\iffalse
+%<*dtx-style>
+%    \begin{macrocode}
+\ProvidesPackage{dtx-style}
+
+\errorcontextlines=999
+
+\def\@dotsep{1000}
+\setcounter{tocdepth}{2}
+\setlength\columnseprule{0.1pt}
+\renewcommand\tableofcontents{\relax
+  \begin{multicols}{2}[\section*{\contentsname}]\small
+    \@starttoc{toc}\relax
+  \end{multicols}}
+
+\setcounter{IndexColumns}{2}
+\renewenvironment{theglossary}
+  {\small\list{}{}
+     \item\relax
+     \glossary@prologue\GlossaryParms 
+     \let\item\@idxitem \ignorespaces 
+     \def\pfill{\hspace*{\fill}}}
+  {\endlist}
+
+\usepackage[svgnames]{xcolor}
+\usepackage{amsmath,array,bm,booktabs,calc,enumitem,fancyvrb,graphicx,ifthen,longtable,refstyle,subfig,topcapt,varioref}
+\usepackage{url}
+
+\usepackage[sc,osf]{mathpazo}
+
+\linespread{1.069}      % A bit more space between lines
+\frenchspacing         % Remove ugly extra space after punctuation
+  
+\definecolor{niceblue}{rgb}{0.2,0.4,0.8}
+\newenvironment{example}[1]
+  {\VerbatimEnvironment
+   \def\Options{#1}%
+   \begin{VerbatimOut}[gobble=2]{\examplefilename}}
+  {\end{VerbatimOut}\relax
+   \typesetexample}
+
+\fvset{formatcom=\color{niceblue}}
+\DefineShortVerb{\|}
+
+\def\theCodelineNo{\textcolor{niceblue}{\sffamily\tiny\arabic{CodelineNo}}}
+
+\let\examplesize\normalsize
+\let\auxwidth\relax
+
+\newlength\examplewidth\newlength\verbatimwidth
+\newlength\exoutdent   \newlength\exverbgap
+\setlength\exverbgap{1em}
+\setlength\exoutdent{-0.15\textwidth}
+\newsavebox\verbatimbox
+\edef\examplefilename{\jobname.example}
+
+\newcommand\typesetexample{\relax
+   \smallskip
+   \noindent
+   \begin{minipage}{\linewidth}
+   \color{niceblue}
+   \hrulefill\par
+   \edef\@tempa{[gobble=0,fontsize=\noexpand\small,\Options]}%
+   \begin{lrbox}{\verbatimbox}\relax
+     \expandafter\BVerbatimInput\@tempa{\examplefilename}%
+   \end{lrbox}
+   \begin{list}{}{\setlength\itemindent{0pt}
+                  \setlength\leftmargin\exoutdent
+                  \setlength\rightmargin{0pt}}\item
+   \ifx\auxwidth\relax
+     \setlength\verbatimwidth{\wd\verbatimbox}%
+   \else
+     \setlength\verbatimwidth{\auxwidth}%
+   \fi
+   \begin{minipage}[c]{\textwidth-\exoutdent-\verbatimwidth-\exverbgap}
+     \catcode`\%=14\centering\linespread{1.6}\input\examplefilename\relax
+   \end{minipage}\hfill
+   \begin{minipage}[c]{\verbatimwidth}
+     \usebox\verbatimbox
+   \end{minipage}
+   \end{list}
+   \par\noindent\hrulefill
+   \end{minipage}\par
+   \smallskip\noindent}
+
+\newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
+
+\newcommand*\name[1]{{#1}}
+\newcommand*\pkg[1]{\textsf{#1}}
+\newcommand*\feat[1]{\texttt{#1}}
+\newcommand*\opt[1]{\texttt{#1}}
+
+\newcommand*\ltx[1]{%
+  \ifx3#1\relax
+    \textsc{ltx3}%
+  \else
+    \LaTeXe
+  \fi}
+
+\newcommand*\note[1]{\unskip\footnote{#1}}
+
+\let\latin\textit
+\def\eg{\latin{e.g.}}
+\def\Eg{\latin{E.g.}}
+\def\ie{\latin{i.e.}}
+\def\etc{\@ifnextchar.{\latin{etc}}{\latin{etc.}\@}}
+
+\def\STIX{\textsc{stix}}
+\def\MacOSX{Mac~OS~X}
+\def\ascii{\textsc{ascii}}
+\def\OMEGA{Omega}
+\def\CTAN{\textsc{ctan}}
+
+\newcounter{argument}
+\g@addto@macro\endmacro{\setcounter{argument}{0}}
+\newcommand*\darg[1]{%
+  \stepcounter{argument}%
+  {\ttfamily\char`\#\theargument~:~}#1\par\noindent\ignorespaces}
+\newcommand*\doarg[1]{%
+  \stepcounter{argument}%
+  {\ttfamily\makebox[0pt][r]{[}\char`\#\theargument]:~}#1\par\noindent\ignorespaces}
+
+\def\codeline{\par\hspace{\parindent}}% two \indents in total
+
+\newcommand\unichar[2]{\textsc{\MakeLowercase{u+#1: #2}}}
+
+\setlength\parindent{2em}
+
+%    \end{macrocode}
+%</dtx-style>
+%\fi
+%
+% \typeout{*************************************************************}
+% \typeout{*}
+% \typeout{* To finish the installation you have to move the following}
+% \typeout{* file into a directory searched by XeTeX:}
+% \typeout{*}
+% \typeout{* \space\space\space mlist.sty}
+% \typeout{*}
+% \typeout{*************************************************************}
+%
+\endinput
