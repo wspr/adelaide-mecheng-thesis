@@ -114,7 +114,8 @@ with assorted derived files.
 \ProvidesClass{adelaide-mecheng-thesis}
 
 \newif\if@print 
-\newif\if@mxthesis@sspa 
+\newif\if@mxt@sppa
+\newcount\mxt@thesistype
 
 \DeclareOption{print}{\@printtrue}
 \DeclareOption{noprint}{\@printfalse}
@@ -132,9 +133,14 @@ with assorted derived files.
 \define@key{mecheng}{version-date}{\def\@versiondate{#1}}
 \define@key{mecheng}{group-name}{\def\@groupname{#1}}
 \define@key{mecheng}{keywords}{\def\@keywords{#1}}
-\define@key{mecheng}{sspa}{\@mxthesis@sspatrue}
+\define@key{mecheng}{sspa}{\@mxt@sppatrue}
+\define@key{mecheng}{phd}     {\mxt@thesistype=0\relax}
+\define@key{mecheng}{progress}{\mxt@thesistype=1\relax}
+\define@key{mecheng}{masters} {\mxt@thesistype=2\relax}
+\define@key{mecheng}{honours} {\mxt@thesistype=3\relax}
 
 \newcommand\thesisdetails{\setkeys{mecheng}}
+\@onlypreamble\thesisdetails
 
 \AtBeginDocument{
   \hypersetup{
@@ -151,7 +157,7 @@ with assorted derived files.
 \linespread{1.1}% Palatino font
 \frenchspacing
 
-\RequirePackage{enumitem,flafter,bm,sistyle,refstyle,amsmath,amssymb,microtype,longtable,subfig,accents,mathtools,booktabs}
+\RequirePackage{enumitem,import,flafter,bm,sistyle,refstyle,amsmath,amssymb,microtype,longtable,subfig,accents,mathtools,booktabs}
 
 \RequirePackage[
     crop=pdfcrop,
@@ -159,6 +165,7 @@ with assorted derived files.
     cleanup={.tex,.dvi,.ps,.pdf,.log,.aux,.out}
   ]{pstool}% .tex and .eps files in pdflatex (e.g., matlabfrag output)
 
+\graphicspath{{graphics/}}
 
 \EndPreamble
 
@@ -216,7 +223,6 @@ with assorted derived files.
 \checkandfixthelayout
 %    \end{macrocode}
 % \paragraph{biblatex customisation}
-% Get rid of that stupid S thing in section references.
 %    \begin{macrocode}
 \usepackage[style=authoryear,firstinits=true,uniquename=false,hyperref=true,backref=true,minnames=1,maxnames=2,urldate=long]{biblatex}
 
@@ -274,6 +280,94 @@ with assorted derived files.
   refcmd  = {\ref{#1}},
   rngtxt  = \RSrngtxt,
   lsttxt  = \RSlsttxt}
+
+
+
+\renewcommand\maketitle{%
+\begin{titlingpage}
+\makeatletter
+\calccentering\unitlength
+\begin{adjustwidth}{\unitlength}{-\unitlength}
+\begin{adjustwidth}{1cm}{}
+{
+  \centering
+  \vfill
+  \includegraphics{UoA_logo_vert_cmyk}
+  \vfill
+  {\huge \@title\par}
+  \vfill
+  \textsc{\Large \@author}\\
+  \vfill
+  {School of Mechanical Engineering\\The University of Adelaide\\South Australia 5005\\Australia}\\
+  \vfill
+  \textit{\footnotesize
+    \ifcase\mxt@thesistype
+      A thesis submitted in fulfillment of the \\
+      requirements for the degree of Ph.\,D. in\\
+      Engineering on the \@submissiondate.
+    \or
+      Progress report submitted in fulfillment of the \\
+      requirements for the degree of Ph.\,D. in\\
+      Engineering on the \@submissiondate.
+    \or
+      A thesis submitted in fulfillment of the \\
+      requirements for the degree of Masters in\\
+      Engineering on the \@submissiondate.
+    \or
+      A thesis submitted in fulfillment of the \\
+      requirements for the degree of Honours in\\
+      Engineering on the \@submissiondate.
+    \fi
+  }
+  \vfill%
+}
+\end{adjustwidth}
+\end{adjustwidth}
+\newpage
+{\small \noindent
+\ifcase\mxt@thesistype
+  \textbf{Ph.\ D. Thesis}
+\or
+  \textbf{Ph.\ D. Progress Report}
+\or
+  \textbf{Masters Thesis}
+\or
+  \textbf{Honours Thesis}
+\fi
+\medskip\\
+\@versiondate\medskip\\
+\@groupname\\
+School of Mechanical Engineering\\
+The University of Adelaide\\
+South Australia 5005\\
+Australia\\}
+\vfill
+\vfill\noindent
+{\footnotesize Typeset by the author using \LaTeX.\\
+Printed in Australia.}
+\vfill\noindent
+\parbox{80mm}{\tiny
+Copyright \textcopyright\ \the\year, \@author\if@mxt@sppa, and The University of Adelaide, South Australia\fi.\\
+\textit{All right reserved. No part of this report may be used or reproduced in any form or by any means, or stored in a database or retrieval system without prior written permission of the university except in the case of brief quotations embodied in critical articles and reviews.}
+}
+\end{titlingpage}%
+}
+
+
+\def\makedeclaration{
+\chapter{Declarations}%
+\section*{Originality}%
+This work contains no material which has been accepted for the award of any other degree of diploma in any university or other tertiary institution.
+To the best of my knowledge and belief, this work contains no material previously published or written by another person, except where due reference has been made in the text.
+
+\section*{Permissions}%
+I give consent to this copy of my thesis, when deposited in the University Library, being made available for loan and photocopying, subject to the provisions of the Copyright Act 1968.
+
+I also give permission for the digital version of my thesis to be made available on the web, via the University's digital research repository, the Library catalogue, the Australasian Digital Theses Program (ADTP) and also through web search engines, unless permission has been granted by the University to restrict access for a period of time.
+\\\vspace{20mm}\\
+\makeatletter\@author\makeatother
+}
+
 %    \end{macrocode}
 %
 %\iffalse
