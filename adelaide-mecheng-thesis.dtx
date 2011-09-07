@@ -313,7 +313,11 @@ with assorted derived files.
 {
   \centering
   \vfill
-  \includegraphics{logo}
+  \IfFileExists{logo.pdf}{%
+    \includegraphics{logo}%
+  }{%
+    \fbox{\parbox[c]{8cm}{\bfseries University logo not found; please download one from \url{http://www.adelaide.edu.au/vi/logo/downloads/} and call it \texttt{logo.pdf} in the same directory as this document.}}
+  }
   \vfill
   {\huge \@title\par}
   \vfill
