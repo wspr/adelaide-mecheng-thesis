@@ -77,6 +77,9 @@ with assorted derived files.
 \RecordChanges
 %\OnlyDescription
 
+\usepackage{lipsum}
+
+
 \makeatletter
 \def\@dotsep{1000}
 \setcounter{tocdepth}{2}
@@ -134,7 +137,7 @@ with assorted derived files.
 % \clearpage
 %
 % \section{Introduction}
-% 
+% \lipsum
 %
 % \StopEventually{}
 %
@@ -168,13 +171,18 @@ with assorted derived files.
 \define@key{mecheng}{version-date}{\def\@versiondate{#1}}
 \define@key{mecheng}{group-name}{\def\@groupname{#1}}
 \define@key{mecheng}{keywords}{\def\@keywords{#1}}
-\define@key{mecheng}{sspa}{\@mxt@sppatrue}
-\define@key{mecheng}{phd}     {\mxt@thesistype=0\relax}
-\define@key{mecheng}{progress}{\mxt@thesistype=1\relax}
-\define@key{mecheng}{masters} {\mxt@thesistype=2\relax}
-\define@key{mecheng}{honours} {\mxt@thesistype=3\relax}
+\define@key{mecheng}{sppa}[]{\@mxt@sppatrue}
+\define@key{mecheng}{phd}     []{\mxt@thesistype=0\relax}
+\define@key{mecheng}{progress}[]{\mxt@thesistype=1\relax}
+\define@key{mecheng}{masters} []{\mxt@thesistype=2\relax}
+\define@key{mecheng}{honours} []{\mxt@thesistype=3\relax}
 
 \newcommand\thesisdetails{\setkeys{mecheng}}
+
+\thesisdetails{
+  group-name = {},
+}
+
 \@onlypreamble\thesisdetails
 
 \AtBeginDocument{
@@ -192,7 +200,7 @@ with assorted derived files.
 \linespread{1.1}% Palatino font
 \frenchspacing
 
-\RequirePackage{enumitem,import,flafter,bm,sistyle,refstyle,amsmath,amssymb,microtype,longtable,subfig,accents,mathtools,booktabs}
+\RequirePackage{enumitem,import,flafter,bm,sistyle,refstyle,amsmath,amssymb,microtype,subfig,booktabs}
 
 \RequirePackage[
     crop=pdfcrop,
@@ -337,22 +345,23 @@ with assorted derived files.
   \vfill
   \textit{\footnotesize
     \ifcase\mxt@thesistype
-      A thesis submitted in fulfillment of the \\
+      Thesis submitted in partial fulfillment of the\\
       requirements for the degree of Ph.\,D. in\\
-      Engineering on the \@submissiondate.
+      Engineering
     \or
-      Progress report submitted in fulfillment of the \\
+      Progress report submitted in partial fulfillment of the\\
       requirements for the degree of Ph.\,D. in\\
-      Engineering on the \@submissiondate.
+      Engineering
     \or
-      A thesis submitted in fulfillment of the \\
+      Thesis submitted in partial fulfillment of the\\
       requirements for the degree of Masters in\\
-      Engineering on the \@submissiondate.
+      Engineering
     \or
-      A thesis submitted in fulfillment of the \\
-      requirements for the degree of Honours in\\
-      Engineering on the \@submissiondate.
+      A report submitted in partial fulfillment of the\\
+      requirements for the degree of Bachelor in\\
+      Engineering
     \fi
+    on \@submissiondate.
   }
   \vfill%
 }
@@ -361,17 +370,22 @@ with assorted derived files.
 \newpage
 {\small \noindent
 \ifcase\mxt@thesistype
-  \textbf{Ph.\ D. Thesis}
+  \textbf{Ph.\,D. Thesis}
 \or
-  \textbf{Ph.\ D. Progress Report}
+  \textbf{Ph.\,D. Progress Report}
 \or
   \textbf{Masters Thesis}
 \or
-  \textbf{Honours Thesis}
+  \textbf{Level IV Project Report}
 \fi
 \medskip\\
 \@versiondate\medskip\\
-\@groupname\\
+\ifx\@groupname\@empty
+  \expandafter\@gobble
+\else
+  \expandafter\@firstofone
+\fi
+{\@groupname\\}
 School of Mechanical Engineering\\
 The University of Adelaide\\
 South Australia 5005\\
@@ -382,7 +396,7 @@ Australia\\}
 Printed in Australia.}
 \vfill\noindent
 \parbox{80mm}{\tiny
-Copyright \textcopyright\ \the\year, \@author\if@mxt@sppa, and The University of Adelaide, South Australia\fi.\\
+Copyright \textcopyright\ \the\year \@author\if@mxt@sppa, and The University of Adelaide, South Australia\fi.\\
 \textit{All right reserved. No part of this report may be used or reproduced in any form or by any means, or stored in a database or retrieval system without prior written permission of the university except in the case of brief quotations embodied in critical articles and reviews.}
 }
 \end{titlingpage}%
@@ -414,9 +428,9 @@ I also give permission for the digital version of my thesis to be made available
 % \typeout{*************************************************************}
 % \typeout{*}
 % \typeout{* To finish the installation you have to move the following}
-% \typeout{* file into a directory searched by XeTeX:}
+% \typeout{* file into a directory searched by LaTeX:}
 % \typeout{*}
-% \typeout{* \space\space\space mlist.sty}
+% \typeout{* \space\space\space adelaide-mecheng-thesis.cls}
 % \typeout{*}
 % \typeout{*************************************************************}
 %
