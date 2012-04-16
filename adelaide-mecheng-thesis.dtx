@@ -175,7 +175,8 @@ with assorted derived files.
 \define@key{mecheng}{phd}     []{\mxt@thesistype=0\relax}
 \define@key{mecheng}{progress}[]{\mxt@thesistype=1\relax}
 \define@key{mecheng}{masters} []{\mxt@thesistype=2\relax}
-\define@key{mecheng}{honours} []{\mxt@thesistype=3\relax}
+\define@key{mecheng}{honours-final} []{\mxt@thesistype=3\relax}
+\define@key{mecheng}{honours-prelim} []{\mxt@thesistype=4\relax}
 
 \newcommand\thesisdetails{\setkeys{mecheng}}
 \thesisdetails{
@@ -337,7 +338,11 @@ with assorted derived files.
       Engineering
     \or
       A report submitted in partial fulfillment of the\\
-      requirements for the degree of Bachelor in\\
+      requirements for the degree of Bachelor of\\
+      Engineering
+    \or
+      A report submitted in partial fulfillment of the\\
+      requirements for the degree of Bachelor of\\
       Engineering
     \fi
     on \@submissiondate.
@@ -354,7 +359,9 @@ with assorted derived files.
 \or
   \textbf{Masters Thesis}
 \or
-  \textbf{Level IV Project Report}
+  \textbf{Level IV Project Final Report}
+\or
+  \textbf{Level IV Project Preliminary Report}
 \fi
 \medskip\\
 \@versiondate\medskip\\
