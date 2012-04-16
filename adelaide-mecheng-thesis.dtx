@@ -178,9 +178,10 @@ with assorted derived files.
 \define@key{mecheng}{honours} []{\mxt@thesistype=3\relax}
 
 \newcommand\thesisdetails{\setkeys{mecheng}}
-
 \thesisdetails{
   group-name = {},
+  keywords   = {},
+  version-date = \today,
 }
 
 \@onlypreamble\thesisdetails
@@ -200,7 +201,9 @@ with assorted derived files.
 \linespread{1.1}% Palatino font
 \frenchspacing
 
-\RequirePackage{enumitem,import,flafter,bm,sistyle,refstyle,amsmath,amssymb,microtype,subfig,booktabs}
+\RequirePackage{enumitem,refstyle,microtype,subfig,booktabs}
+
+\PassOptionsToPackage{tableposition=top}{caption}
 
 \RequirePackage[
     crop=pdfcrop,
@@ -208,10 +211,9 @@ with assorted derived files.
     cleanup={.tex,.dvi,.ps,.pdf,.log,.aux,.out}
   ]{pstool}% .tex and .eps files in pdflatex (e.g., matlabfrag output)
 
-\graphicspath{{graphics/}}
-
 \EndPreamble
 
+\nouppercaseheads
 %%%% Fix up the footnote referencing
 %\RequirePackage{footmisc}
 %\renewcommand*{\footref}[1]{%
@@ -258,7 +260,7 @@ with assorted derived files.
 \g@addto@macro\mainmatter{\pagestyle{ruledmod}}
 \g@addto@macro\backmatter{\movetooddpage[\thispagestyle{empty}]}
 
-\chapterstyle{hangnum}
+\chapterstyle{ruledmod}
 \maxsecnumdepth{subsubsection}
 
 \addtolength{\spinemargin}{0.6cm}
@@ -267,50 +269,7 @@ with assorted derived files.
 %    \end{macrocode}
 % \paragraph{biblatex customisation}
 %    \begin{macrocode}
-\usepackage[style=authoryear,firstinits=true,uniquename=false,hyperref=true,backref=true,minnames=1,maxnames=2,urldate=long]{biblatex}
-
-\DeclareNameFormat{default}{%
-  \iffirstinits
-    {\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}}
-    {\usebibmacro{name:last-first}{#1}{#3}{#5}{#7}}%
-  \usebibmacro{name:andothers}}
-
-
-\defbibheading{references}{%
-  \chapter*{References}%
-  \ifmemoirbibintoc
-    {\phantomsection
-     \addcontentsline{toc}{chapter}{References}}
-    {}%
-  \@mkboth{\textsc{References}}{}}
-
-\defbibheading{empty}{}
-
-\DeclareMultiCiteCommand{\textcites}[]{\textcite}{\multicitedelim}
-  
-\renewcommand\multicitedelim{, }
-\renewcommand\bibname{References}
-  
-\DeclareFieldFormat[article]{number}{No.\,#1}%
-\DeclareFieldFormat[article]{volume}{Vol.\,#1}%
-\DeclareFieldFormat[article]{year}{#1}%
-    
-\renewbibmacro*{journal+issuetitle}{%
-  \usebibmacro{journal}%
-  \setunit*{\addspace}%
-  \iffieldundef{series}
-    {}
-    {\newunit
-     \printfield{series}%
-     \setunit{\addspace}}%
-  \printfield{volume}%
-  \setunit{\addcomma\space}%
-  \printfield{number}%
-%  \setunit{\addcomma\space}%
-%  \printfield{year}%
-  \newunit\newblock
-  \usebibmacro{issue}%
-  \newunit}
+\AtBeginDocument{\renewcommand\bibname{References}}
 %    \end{macrocode}
 % \paragraph{refstyle customisation}
 % Get rid of that stupid S thing in section references.
@@ -323,6 +282,24 @@ with assorted derived files.
   refcmd  = {\ref{#1}},
   rngtxt  = \RSrngtxt,
   lsttxt  = \RSlsttxt}
+%%-- TEMPLATE FOR FIGURES -----------------------
+   \newref{fig}{%
+      name      = \RSFigtxt,
+      names     = \RSFigstxt,
+      Name      = \RSFigtxt,
+      Names     = \RSFigstxt,
+      rngtxt    = \RSrngtxt,
+      lsttwotxt = \RSlsttwotxt,
+      lsttxt    = \RSlsttxt}
+%%-- TEMPLATE FOR TABLES ------------------------
+   \newref{tab}{%
+      name      = \RSTabtxt,
+      names     = \RSTabstxt,
+      Name      = \RSTabtxt,
+      Names     = \RSTabstxt,
+      rngtxt    = \RSrngtxt,
+      lsttwotxt = \RSlsttwotxt,
+      lsttxt    = \RSlsttxt}
 
 
 
@@ -335,7 +312,7 @@ with assorted derived files.
 {
   \centering
   \vfill
-  \includegraphics{UoA_logo_vert_cmyk}
+  \includegraphics{logo}
   \vfill
   {\huge \@title\par}
   \vfill
@@ -343,7 +320,9 @@ with assorted derived files.
   \vfill
   {School of Mechanical Engineering\\The University of Adelaide\\South Australia 5005\\Australia}\\
   \vfill
-  \textit{\footnotesize
+  \par
+  \itshape
+  \footnotesize
     \ifcase\mxt@thesistype
       Thesis submitted in partial fulfillment of the\\
       requirements for the degree of Ph.\,D. in\\
@@ -362,8 +341,7 @@ with assorted derived files.
       Engineering
     \fi
     on \@submissiondate.
-  }
-  \vfill%
+  \par
 }
 \end{adjustwidth}
 \end{adjustwidth}
@@ -396,7 +374,7 @@ Australia\\}
 Printed in Australia.}
 \vfill\noindent
 \parbox{80mm}{\tiny
-Copyright \textcopyright\ \the\year \@author\if@mxt@sppa, and The University of Adelaide, South Australia\fi.\\
+Copyright \textcopyright\ \the\year\ \@author\if@mxt@sppa, and The University of Adelaide, Australia\fi.\\[\medskipamount]
 \textit{All right reserved. No part of this report may be used or reproduced in any form or by any means, or stored in a database or retrieval system without prior written permission of the university except in the case of brief quotations embodied in critical articles and reviews.}
 }
 \end{titlingpage}%

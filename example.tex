@@ -1,0 +1,105 @@
+\documentclass{adelaide-mecheng-thesis}
+
+\usepackage{amsmath,amssymb,bm,cool}% for maths
+\usepackage{siunitx}% for typesetting units and numbers with units
+
+% bibliography setup:
+\usepackage[firstinits=true]{biblatex}% use "[style=authoryear]" alternatively.
+\bibliography{papers}
+
+\thesisdetails{
+  author = {Zebb Prime and Will Robertson},
+  title = {Example of a Mech.\ Eng.\ Thesis},
+  submission-date = {November 14, 2012},
+  honours,
+  sppa
+}
+
+\graphicspath{{graphics/}}
+
+\begin{document}
+
+
+\maketitle
+
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+\chapter{Introduction}
+
+This is a class for getting start with writing a thesis or report in the School of Mechanical Engineering at The University of Adelaide.
+This class is bases on \texttt{memoir}, for which you may refer for further information on customising the layout.
+See one of the user guides, such as \texttt{lshort} for more information on learning \LaTeX.
+
+\section{Maths}
+
+An inline equation is short and cannot be referenced $a=b+c$. Note when you refer to numbers you want to use the \texttt{siunitx} package. It simplies things greatly so I can easily write $\ddot x=\SI{1.2e-2}{m/s^2}$, for example.
+
+Maths in display form should \emph{always} be numbered and should be punctuated as if it were part of a sentence as in
+\begin{equation}
+F(s) = \mathcal{L}\{f(t)\} = \Int{f(t)\Exp{-st}}{t,-\infty,\infty} .
+\eqlabel{laplace}
+\end{equation}
+Note the use of the \texttt{cool} package to help with inputting certain maths constructs. (The equation above is \eqref{laplace}.)
+
+\section{Figures and tables}
+
+Here is a reference to a graph; see \figref{graph}. And how about another one, \figref{subfig}, that has two subfigures \figref{subfiga,subfigb}?
+
+\begin{figure}
+\centering
+\rule{4em}{4ex}
+\caption{A figure that's actually just a rectangle.}
+\figlabel{graph}
+\end{figure}
+
+\begin{figure}
+\centering
+\subfloat[Subfig one.\figlabel{subfiga}]{\rule{15em}{3ex}}
+\hfil
+\subfloat[Subfig two.\figlabel{subfigb}]{\rule{10em}{2ex}}
+\caption{A figure with two subfigures.}
+\figlabel{subfig}
+\end{figure}
+
+\section{Tables}
+
+See the example in \tabref{mytable}. Avoid vertical lines.
+Traditionally, captions for tables come \emph{above} whereas captions for figures are below. (Consider a table that stretches over a page --- for which you'll need a package such as \texttt{longtable} --- for why this might be.)
+
+\begin{table}
+\caption{This is a tabular using the \texttt{booktabs} package.}
+\tablabel{mytable}
+\centering
+\begin{tabular}{@{}lcc@{}}
+\toprule
+& \multicolumn{2}{@{}c@{}}{Variable} \\
+\cmidrule{2-3}
+& Symbol & Value \\
+\midrule
+Mass & $m$ & \SI{1.2e2}{kg} \\
+Acceleration & $\ddot x$ & \SI{0.4}{m/s^2} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Literature review}
+
+You can reference papers either inline such as when I want to talk about the work of \textcite{fahey1998-sportseng}. Or they can be parenthetical \parencite{hubbard1984-biomech}. I dislike using parethetical references as sentence objects, such as writing `see \parencite{foss2007-sv} for further context'. Write at least `\dots Ref.\ \parencite{foss2007-sv}\dots ' or ideally reword the sentence.
+
+The package used for referencing is \texttt{biblatex}. It has many customisation features and can also be used to reference in an author--year style. See its manual for more information.
+
+\printbibliography
+
+\appendix
+\chapter{Appendices}
+
+\section{An appendix}
+
+\section{Another}
+
+
+\end{document}
