@@ -50,16 +50,15 @@ Note the use of the \texttt{cool} package to help with inputting certain maths c
 Here is a reference to a graph; see \figref{graph}. And how about another one, \figref{subfig}, that has two subfigures \figref{subfiga,subfigb}?
 
 \begin{figure}
-\centering
 \rule{4em}{4ex}
 \caption{A figure that's actually just a rectangle.}
 \figlabel{graph}
 \end{figure}
 
 \begin{figure}
-\centering
 \subfloat[Subfig one.\figlabel{subfiga}]{\rule{15em}{3ex}}
-\hfil
+\hfil % equal space between and either side of the figures
+      % or use \hfill to spread the figures to the margins
 \subfloat[Subfig two.\figlabel{subfigb}]{\rule{10em}{2ex}}
 \caption{A figure with two subfigures.}
 \figlabel{subfig}
@@ -73,7 +72,6 @@ Traditionally, captions for tables come \emph{above} whereas captions for figure
 \begin{table}
 \caption{This is a tabular using the \texttt{booktabs} package.}
 \tablabel{mytable}
-\centering
 \begin{tabular}{@{}lcc@{}}
 \toprule
 & \multicolumn{2}{@{}c@{}}{Variable} \\
