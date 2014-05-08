@@ -4,7 +4,8 @@
 \usepackage{siunitx}% for typesetting units and numbers with units
 
 % bibliography setup:
-\usepackage[firstinits=true,backend=bibtex]{biblatex}% use "[style=authoryear]" alternatively.
+\usepackage[firstinits=true,backend=bibtex,style=authoryear]{biblatex}
+% (delete the "style" option for numerical referencing)
 \bibliography{papers}
 
 \thesisdetails{
@@ -92,9 +93,9 @@ Acceleration & $\ddot x$ & \SI{0.4}{m/s^2} \\
 
 \section{Literature review}
 
-You can reference papers either inline such as when I want to talk about the work of \textcite{fahey1998-sportseng}. Or they can be parenthetical \parencite{hubbard1984-biomech}. I dislike using parethetical references as sentence objects, such as writing `see \parencite{foss2007-sv} for further context'. Write at least `\dots Ref.\ \parencite{foss2007-sv}\dots ' or ideally reword the sentence.
+You can reference papers either inline such as when I want to talk about the work of \textcite{fahey1998-sportseng}. Or they can be parenthetical \parencite{hubbard1984-biomech}.
 
-The package used for referencing is \texttt{biblatex}. It has many customisation features and can also be used to reference in an author--year style. See its manual for more information.
+The package used for referencing is \texttt{biblatex}. It has many customisation features. See its manual for more information.
 
 \printbibliography
 
