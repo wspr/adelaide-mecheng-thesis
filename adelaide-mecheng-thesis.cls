@@ -1,159 +1,21 @@
-% \iffalse 
-%<*internal>
-\iffalse
-%</internal>
-%<*readme>
-___________________________________
-The adelaide-mecheng-thesis package
-v0.1
-
-___________________________
-Will Robertson & Zebb Prime
-
-will.robertson@latex-project.org
-
-Copyright 2011-
-Distributed under the LaTeX Project Public License
-%</readme>
-%<*internal>
-\fi
-\begingroup
-%</internal>
-%<*batchfile>
-\input docstrip.tex
-\keepsilent
-\preamble
-
-  _______________________________________________
-  Copyright (C) 2011  Will Robertson & Zebb Prime
-
-  License information appended.
-
-
-\endpreamble
-\postamble
-
-Copyright (C) 2011 by Will Robertson & Zebb Prime
-
-will.robertson@latex-project.org
-
-Distributable under the LaTeX Project Public License,
-version 1.3c or higher (your choice). The latest version of
-this license is at: http://www.latex-project.org/lppl.txt
-
-This work is "maintained" (as per LPPL maintenance status) 
-by Will Robertson.
-
-This work consists of the file  adelaide-mecheng-thesis.dtx
-with assorted derived files.
-
-\endpostamble
-\askforoverwritefalse
-\generate{\file{\jobname.cls}{\from{\jobname.dtx}{package}}}
-%</batchfile>
-%<batchfile>\endbatchfile
-%<*internal>
-\generate{\file{\jobname.ins}{\from{\jobname.dtx}{batchfile}}}
-\nopreamble\nopostamble
-\generate{\file{README.txt}{\from{\jobname.dtx}{readme}}}
-\endgroup
-\immediate\write18{makeindex -s gind.ist -o \jobname.ind  \jobname.idx}
-\immediate\write18{makeindex -s gglo.ist -o \jobname.gls  \jobname.glo}
-%</internal>
-%
-%<*driver>
-\ProvidesFile{adelaide-mecheng-thesis.dtx}
-%</driver>
-%<package>\ProvidesPackage{adelaide-mecheng-thesis}
-%<*fontspec|patches>
-  [2011/09/04 v0.1 Report/thesis class for Mechanical Engineering @ Adelaide]
-%</fontspec|patches>
-%$
-%<*driver>
-\documentclass{ltxdoc}
-\usepackage{hypdoc}
-\EnableCrossrefs
-\CodelineIndex
-\RecordChanges
-%\OnlyDescription
-
-\usepackage{lipsum}
-
-
-\makeatletter
-\def\@dotsep{1000}
-\setcounter{tocdepth}{2}
-\setlength\columnseprule{0.1pt}
-\renewcommand\tableofcontents{\relax
-  \begin{multicols}{2}[\section*{\contentsname}]\small
-    \@starttoc{toc}\relax
-  \end{multicols}}
-
-\setcounter{IndexColumns}{2}
-\renewenvironment{theglossary}
-  {\small\list{}{}
-     \item\relax
-     \glossary@prologue\GlossaryParms 
-     \let\item\@idxitem \ignorespaces 
-     \def\pfill{\hspace*{\fill}}}
-  {\endlist}
-
-\usepackage[svgnames]{xcolor}
-\usepackage{booktabs,enumitem,refstyle,varioref}
-
-\usepackage[T1]{fontenc}
-\usepackage[sc,osf]{mathpazo}
-\usepackage{textcomp}
-
-\linespread{1.1}       % A bit more space between lines
-\frenchspacing         % Remove ugly extra space after punctuation
-  
-\definecolor{niceblue}{rgb}{0.2,0.4,0.8}
-\newcommand*\setverbwidth[1]{\def\auxwidth{#1}}
-
-\newcommand*\pkg[1]{\textsf{#1}}
-\newcommand*\feat[1]{\texttt{#1}}
-\newcommand*\opt[1]{\texttt{#1}}
-
-\setlength\parindent{2em}
-
-\begin{document}
-  \DocInput{\jobname.dtx}
-\end{document}
-%</driver>
-%
-%
-% \fi
-%
-% \GetFileInfo{\jobname.dtx}
-% \CheckSum{0}
-% \makeatletter
-%
-% \author{Will Robertson \and Zebb Prime}
-% \title{Class file for reports and theses in the School of Mechanical Engineering, University of Adelaide}
-% \date{\filedate \qquad \fileversion}
-%
-% \maketitle
-%
-% \tableofcontents
-% \clearpage
-%
-% \section{Introduction}
-% \lipsum
-%
-% \StopEventually{}
-%
-% \clearpage
-% \part{\pkg{\jobname} implementation}
-%\iffalse
-%<*package>
-%\fi
-%
-%
-%    \begin{macrocode}
+%%
+%% This is file `adelaide-mecheng-thesis.cls',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% adelaide-mecheng-thesis.dtx  (with options: `package')
+%% 
+%%   _______________________________________________
+%%   Copyright (C) 2011  Will Robertson & Zebb Prime
+%% 
+%%   License information appended.
+%% 
+%% 
+\ProvidesPackage{adelaide-mecheng-thesis}
 \ProvidesClass{adelaide-mecheng-thesis}
 
-\newif\if@print 
+\newif\if@print
 \newif\if@mxt@sppa
 \newcount\mxt@thesistype
 
@@ -163,9 +25,6 @@ with assorted derived files.
 
 \LoadClass[a4paper,11pt,twoside,onecolumn,openright]{memoir}
 
-\pdfimageresolution=300
-\pdfminorversion=6
-
 \RequirePackage{keyval}
 \define@key{mecheng}{author}{\def\@author{#1}}
 \define@key{mecheng}{title}{\def\@title{#1}}
@@ -173,7 +32,9 @@ with assorted derived files.
 \define@key{mecheng}{version-date}{\def\@versiondate{#1}}
 \define@key{mecheng}{group-name}{\def\@groupname{#1}}
 \define@key{mecheng}{keywords}{\def\@keywords{#1}}
-\define@key{mecheng}{sppa}[]{\@mxt@sppatrue}
+\define@key{mecheng}{wordcount}{\def\@wordcount{#1}}
+\define@key{mecheng}{wordlimit}{\def\@wordlimit{#1}}
+\define@key{mecheng}{deed-poll}[]{\@mxt@sppatrue}
 \define@key{mecheng}{phd}     []{\mxt@thesistype=0\relax}
 \define@key{mecheng}{progress}[]{\mxt@thesistype=1\relax}
 \define@key{mecheng}{masters} []{\mxt@thesistype=2\relax}
@@ -204,27 +65,12 @@ with assorted derived files.
 \linespread{1.1}% Palatino font
 \frenchspacing
 
-\RequirePackage{enumitem,refstyle,microtype,subfig,booktabs}
+\RequirePackage{graphicx,enumitem,refstyle,microtype,subfig,booktabs,xcolor}
 
 \PassOptionsToPackage{tableposition=top}{caption}
 
-\RequirePackage[
-    crop=pdfcrop,
-    process=auto,
-    cleanup={.tex,.dvi,.ps,.pdf,.log,.aux,.out}
-  ]{pstool}% .tex and .eps files in pdflatex (e.g., matlabfrag output)
-
-\EndPreamble
-
 \nouppercaseheads
 %%%% Fix up the footnote referencing
-%\RequirePackage{footmisc}
-%\renewcommand*{\footref}[1]{%
-% \begingroup
-%   \unrestored@protected@xdef\@thefnmark{\ref*{#1}}%
-% \endgroup
-% \@footnotemark
-%}
 
 %%%% Where environment for lists following equations.
 \newenvironment{where}[1][]
@@ -237,8 +83,7 @@ with assorted derived files.
   {\end{description}}
 
 %%%% Set up hyperref, and make links dark colours
-%\RequirePackage{hyperref} Implicitly loaded by attachfile.
-\RequirePackage[colorlinks=true,bookmarks,plainpages=false,pdfpagelabels,final]{attachfile}
+\RequirePackage{hyperref,bookmark}
 \if@print
   \hypersetup{linkcolor=black,citecolor=black,filecolor=black,urlcolor=black} % Black links
 \else
@@ -269,14 +114,7 @@ with assorted derived files.
 \addtolength{\spinemargin}{0.6cm}
 \addtolength{\foremargin}{-0.6cm}
 \checkandfixthelayout
-%    \end{macrocode}
-% \paragraph{biblatex customisation}
-%    \begin{macrocode}
 \AtBeginDocument{\renewcommand\bibname{References}}
-%    \end{macrocode}
-% \paragraph{refstyle customisation}
-% Get rid of that stupid S thing in section references.
-%    \begin{macrocode}
 \newref{sec}{%
   name    = \RSsectxt,
   names   = \RSsecstxt,
@@ -366,9 +204,9 @@ with assorted derived files.
 \or
   \textbf{Masters Thesis}
 \or
-  \textbf{Level IV Project Final Report}
+  \textbf{Honours Project Final Report}
 \or
-  \textbf{Level IV Project Preliminary Report}
+  \textbf{Honours Project Preliminary Report}
 \fi
 \medskip\\
 \@versiondate\medskip\\
@@ -384,16 +222,15 @@ South Australia 5005\\
 Australia\\}
 \vfill
 \vfill\noindent
-{\footnotesize Typeset by the author using \LaTeX.\\
-Printed in Australia.}
+{\footnotesize Written and typeset using \LaTeX.}
 \vfill\noindent
-\parbox{80mm}{\tiny
+\tiny
 Copyright \textcopyright\ \the\year\ \@author\if@mxt@sppa, and The University of Adelaide, Australia\fi.\\[\medskipamount]
-\textit{All right reserved. No part of this report may be used or reproduced in any form or by any means, or stored in a database or retrieval system without prior written permission of the university except in the case of brief quotations embodied in critical articles and reviews.}
+\parbox{80mm}{\tiny
+\textit{All right reserved. No part of this report may be used or reproduced in any form or by any means, or stored in a database or retrieval system without prior written permission of the copyright holders except in the case of brief quotations embodied in critical articles and reviews.}
 }
 \end{titlingpage}%
 }
-
 
 \def\makedeclaration{
 \chapter{Declarations}%
@@ -409,21 +246,20 @@ I also give permission for the digital version of my thesis to be made available
 \makeatletter\@author\makeatother
 }
 
-%    \end{macrocode}
-%
-%\iffalse
-%</package>
-%\fi
-%
-%
-%
-% \typeout{*************************************************************}
-% \typeout{*}
-% \typeout{* To finish the installation you have to move the following}
-% \typeout{* file into a directory searched by LaTeX:}
-% \typeout{*}
-% \typeout{* \space\space\space adelaide-mecheng-thesis.cls}
-% \typeout{*}
-% \typeout{*************************************************************}
-%
-\endinput
+%% 
+%% Copyright (C) 2011 by Will Robertson & Zebb Prime
+%% 
+%% will.robertson@latex-project.org
+%% 
+%% Distributable under the LaTeX Project Public License,
+%% version 1.3c or higher (your choice). The latest version of
+%% this license is at: http://www.latex-project.org/lppl.txt
+%% 
+%% This work is "maintained" (as per LPPL maintenance status)
+%% by Will Robertson.
+%% 
+%% This work consists of the file  adelaide-mecheng-thesis.dtx
+%% with assorted derived files.
+%% 
+%%
+%% End of file `adelaide-mecheng-thesis.cls'.
