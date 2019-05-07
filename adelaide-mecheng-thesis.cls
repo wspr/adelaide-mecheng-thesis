@@ -32,8 +32,8 @@
 \define@key{mecheng}{version-date}{\def\@versiondate{#1}}
 \define@key{mecheng}{group-name}{\def\@groupname{#1}}
 \define@key{mecheng}{keywords}{\def\@keywords{#1}}
-\define@key{mecheng}{wordcount}{\def\@wordcount{#1}}
-\define@key{mecheng}{wordlimit}{\def\@wordlimit{#1}}
+\define@key{mecheng}{word-count}{\def\@wordcount{#1}}
+\define@key{mecheng}{word-limit}{\def\@wordlimit{#1}}
 \define@key{mecheng}{deed-poll}[]{\@mxt@sppatrue}
 \define@key{mecheng}{phd}     []{\mxt@thesistype=0\relax}
 \define@key{mecheng}{progress}[]{\mxt@thesistype=1\relax}
@@ -167,6 +167,7 @@
   {School of Mechanical Engineering\\The University of Adelaide\\South Australia 5005\\Australia}\\
   \vfill
   \par
+  {\ifdefined\@wordcount Word count: \@wordcount\ifdefined\@wordlimit \space of \@wordlimit\fi\par\medskip\fi}
   \itshape
   \footnotesize
     \ifcase\mxt@thesistype
